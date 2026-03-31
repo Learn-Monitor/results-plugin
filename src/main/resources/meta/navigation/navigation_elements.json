@@ -1,0 +1,17 @@
+[
+    {
+        "type": "ADMIN_STUDENT",
+        "path": "/student-results",
+        "label": "Ergebnisse anzeigen"
+    },
+    {
+        "type": "TEACHER_STUDENT",
+        "path": "/student-results",
+        "label": "Ergebnisse anzeigen"
+    },
+    {
+        "type": "STUDENT_DASHBOARD",
+        "path": "/results",
+        "label": "Meine Ergebnisse anzeigen"
+    }
+]

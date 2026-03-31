@@ -1,0 +1,30 @@
+{
+    "/results": {
+        "type": "GET",
+        "handler_type":"TemplatingFileRequestHandler",
+        "namespaces": ["user"],
+        "context": "html",
+        "access_level": "student"
+    },
+    "/student-results": {
+        "type": "GET",
+        "handler_type": "TemplatingFileRequestHandler",
+        "namespaces": ["teacher", "admin"],
+        "context": "html",
+        "access_level": "teacher"
+    },
+    "/build_results.js": {
+        "type": "GET",
+        "handler_type": "FileRequestHandler",
+        "namespaces": ["user", "teacher"],
+        "context": "js",
+        "access_level": "user"
+    },
+    "/results.css": {
+        "type": "GET",
+        "handler_type": "FileRequestHandler",
+        "namespaces": ["site"],
+        "context": "css",
+        "access_level": "public"
+    }
+}

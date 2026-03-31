@@ -1,0 +1,6 @@
+{
+    "student_results": {
+        "type": "HTMLFileTemplate",
+        "path": "student_results"
+    }
+}
