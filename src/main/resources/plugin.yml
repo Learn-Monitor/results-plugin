@@ -1,4 +1,4 @@
-id: example_plugin
-name: Example Plugin
-description: This is an example plugin
-main: com.example.plugin.ExamplePlugin
+id: results_plugin
+name: Results Plugin
+description: This adds a student results page
+main: de.igslandstuhl.database.results.ResultsPlugin
