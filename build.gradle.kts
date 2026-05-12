@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("igs-landstuhl:student-database:v1.1.0-SNAPSHOT-0") // TODO: Use an api only implementation here
+    compileOnly("igs-landstuhl:student-database:v2.0.0-SNAPSHOT-0") // TODO: Use an api only implementation here
     
     // test framework (optional)
     testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
