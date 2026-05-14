@@ -8,16 +8,18 @@ public class ResultsPlugin extends Plugin {
     @Override
     protected void onLoad() {
         config = new ResultsPluginConfig(this);
-        System.out.println("Loaded Results plugin!");
+        getLogger().info("Loaded results plugin successfully");
     }
 
     @Override
     protected void onEnable() {
-        System.out.println("Results plugin is now enabled");
+        getLogger().info("Results plugin is now enabled");
     }
 
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        getLogger().info("Disabled results plugin");
+    }
 
     @Override
     public ResultsPluginConfig getConfig() {
