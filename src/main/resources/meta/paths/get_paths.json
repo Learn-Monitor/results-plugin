@@ -26,5 +26,12 @@
         "namespaces": ["site"],
         "context": "css",
         "access_level": "public"
+    },
+    "/arcanum-schatzkammer-hintergrund.png": {
+        "type": "GET",
+        "handler_type": "FileRequestHandler",
+        "namespaces": ["site"],
+        "context": "imgs",
+        "access_level": "public"
     }
 }
