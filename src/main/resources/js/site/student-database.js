@@ -257,8 +257,14 @@ function arcanumResultCreateLogbook(tasks) {
 
         const reward = document.createElement('strong');
         reward.className = 'arcanum-log-entry__reward';
-        reward.textContent =
-            `+${Math.max(0, Number(task?.tokens) || 0)}`;
+        const rewardCoin = document.createElement('img');
+        rewardCoin.src = '/arcanum-coin.png';
+        rewardCoin.alt = '';
+        rewardCoin.className = 'arcanum-log-entry__reward-coin';
+        reward.appendChild(rewardCoin);
+        reward.appendChild(
+            document.createTextNode(`+${Math.max(0, Number(task?.tokens) || 0)}`)
+        );
 
         content.appendChild(title);
 
@@ -360,8 +366,14 @@ function createBarChart(subject, subjectName, tasks, settings) {
 
     const coinHeading = document.createElement('strong');
     coinHeading.className = 'arcanum-result-coins__heading';
-    coinHeading.textContent =
-        `${coins} / ${RESULT_MAX_COINS} Münzen`;
+    const headingCoin = document.createElement('img');
+    headingCoin.src = '/arcanum-coin.png';
+    headingCoin.alt = '';
+    headingCoin.className = 'arcanum-result-coins__heading-coin';
+    coinHeading.appendChild(headingCoin);
+    coinHeading.appendChild(
+        document.createTextNode(`${coins} / ${RESULT_MAX_COINS} Münzen`)
+    );
 
     coinSection.appendChild(coinHeading);
     coinSection.appendChild(

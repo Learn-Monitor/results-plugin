@@ -400,6 +400,26 @@ body {
         );
 }
 
+.arcanum-log-entry__reward {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.arcanum-log-entry__reward-coin,
+.arcanum-result-coins__heading-coin {
+    width: 1rem;
+    height: 1rem;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+.arcanum-result-coins__heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
 .arcanum-log-entry__content {
     display: grid;
     min-width: 0;
