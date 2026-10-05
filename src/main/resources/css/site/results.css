@@ -1,35 +1,31 @@
-.bar-chart { max-width: 100%; margin-bottom: 40px; overflow: hidden; }
-.bar-container { display: flex; align-items: flex-end; height: 60px; max-width: 100%; margin-top: 10px; overflow: hidden; }
-.bar-task {
-    height: 40px;
-    margin-right: 0;
-    border-radius: 4px 4px 0 0;
-    border: 1px solid #ccc;
-    position: relative;
+#charts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    width: 100%;
+    max-width: none;
     box-sizing: border-box;
 }
-.bar-task.level1 { background: #f5e9d4; } /* beige */
-.bar-task.level2 { background: #b3d1ff; } /* blue */
-.bar-task.level3 { background: #fff9b3; } /* yellow */
-.bar-task.special { background: #ffdddd;} /* pink */
-.bar-task.hatched {
-    background-image: repeating-linear-gradient(
-    45deg,
-    rgba(0,0,0,0.1) 0, rgba(0,0,0,0.1) 4px,
-    transparent 4px, transparent 8px
-    );
+.treasure-card {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid #c8b88f;
+    border-radius: .8rem;
+    background: #fffaf0;
+    color: #20241f;
+    box-shadow: 0 .4rem 1rem rgba(40, 30, 15, .09);
+    overflow-wrap: anywhere;
 }
-.bar-task.completed { opacity: 1; }
-.bar-task.selected:not(.completed) { opacity: 0.7; }
-.bar-task:not(.completed):not(.selected) { opacity: 0.3; }
-.grade-scale { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.9em; }
-.grade-label { font-weight: bold; }
-.grade-current, .grade-prediction { margin-top: 8px; }
-.bar-task-label {
-    position: absolute;
-    bottom: 100%; left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.8em;
-    white-space: nowrap;
-    margin-bottom: 2px;
+.treasure-card h3 { margin: 0 0 .75rem; font-size: 1.15rem; }
+.treasure-card__score { margin: 0; font-weight: 800; }
+.treasure-card__summary { margin: .5rem 0 .85rem; color: #4b5149; font-size: .92rem; }
+.treasure-card__stages { margin: 0; padding-left: 1.15rem; }
+.treasure-card__stages li { margin: .35rem 0; line-height: 1.35; }
+.treasure-card__stages .is-completed { color: #235034; font-weight: 700; }
+.treasure-card__stages .is-open { color: #514935; }
+.treasure-card--error { color: #7a2f27; background: #fff0eb; }
+@media (max-width: 1100px) { #charts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+    #charts { grid-template-columns: minmax(0, 1fr); gap: .8rem; }
+    .treasure-card { padding: .9rem; }
 }

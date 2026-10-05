@@ -29,3 +29,14 @@ test('falls back safely when a subject is not in the shared list', () => {
         'Unbekannt'
     );
 });
+
+test('uses the canonical coin thresholds and display order', () => {
+    assert.equal(context.gradeForCoins(0), 6);
+    assert.equal(context.gradeForCoins(20), 5);
+    assert.equal(context.gradeForCoins(40), 4);
+    assert.equal(context.gradeForCoins(60), 3);
+    assert.equal(context.gradeForCoins(75), 2);
+    assert.equal(context.gradeForCoins(90), 1);
+    assert.equal(context.resolveSubjectOrder({displayOrder: 7}), 7);
+    assert.equal(context.resolveSubjectOrder({name: 'unbekannt'}), 1000);
+});
