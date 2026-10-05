@@ -36,7 +36,7 @@ function createGradeScale() {
     return scale;
 }
 
-function createBarChart(subject, subjectName, studentData, settings) {
+function createBarChart(subject, subjectName, studentData, settings, progressKey) {
     const chart = document.createElement('div');
     chart.className = 'bar-chart';
 
@@ -94,10 +94,10 @@ function createBarChart(subject, subjectName, studentData, settings) {
     chart.appendChild(bar);
 
     // Progress and grade info
-    const progress = studentData.currentProgress && studentData.currentProgress[subjectName]
-        ? studentData.currentProgress[subjectName].progress : 0;
-    const predicted = studentData.predictedProgress && studentData.predictedProgress[subjectName]
-        ? studentData.predictedProgress[subjectName].predictedProgress : 0;
+    const progress = studentData.currentProgress && studentData.currentProgress[progressKey]
+        ? studentData.currentProgress[progressKey].progress : 0;
+    const predicted = studentData.predictedProgress && studentData.predictedProgress[progressKey]
+        ? studentData.predictedProgress[progressKey].predictedProgress : 0;
 
     const grade = settings.show_current_grade ? getGrade(progress) : 0;
     const predictedGrade = getGrade(predicted);
@@ -116,19 +116,31 @@ function createBarChart(subject, subjectName, studentData, settings) {
 
     return chart;
 }
-async function loadStudentResultView(studentData) {
+function resolveSubjectDisplayName(progress, progressKey, availableSubjects) {
+    const canonical = Array.isArray(availableSubjects)
+        ? availableSubjects.find(subject => Number(subject.id) === Number(progress?.subjectId))
+        : null;
+    return canonical?.name || progressKey;
+}
+async function loadStudentResultView(studentData, availableSubjects = []) {
     const config = await fetchPluginConfig('results_plugin');
 
     document.getElementById('student-name').textContent = `${studentData.firstName} ${studentData.lastName}`;
 
     // Get all subjects from progress keys
     const subjectNames = Object.keys(studentData.currentProgress || {});
-    // If you have subject objects, map them here; else, use names as fallback
-    // For demo: create fake subject objects
-    const subjects = subjectNames.map(name => ({ id: name, name }));
+    const subjects = subjectNames.map(progressKey => {
+        const progress = studentData.currentProgress[progressKey] || {};
+        return {
+            id: progress.subjectId ?? progressKey,
+            name: progressKey,
+            displayName: resolveSubjectDisplayName(progress, progressKey, availableSubjects),
+            progressKey
+        };
+    });
 
     const charts = document.getElementById('charts');
     subjects.forEach(subject => {
-        charts.appendChild(createBarChart(subject, subject.name, studentData, config.values));
+        charts.appendChild(createBarChart(subject, subject.displayName, studentData, config.values, subject.progressKey));
     });
 }

@@ -15,11 +15,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly("igs-landstuhl:student-database:v2.0.0-SNAPSHOT-1") // TODO: Use an api only implementation here
+    val localStudentDatabaseJar = providers.gradleProperty("studentDatabaseJar").orNull
+    compileOnly(if (localStudentDatabaseJar == null) "igs-landstuhl:student-database:v2.0.0-SNAPSHOT-1" else files(localStudentDatabaseJar)) // TODO: Use an api only implementation here
     compileOnly("org.slf4j:slf4j-api:2.0.13")
     
     // Only for local debugging:
-    runtimeOnly("igs-landstuhl:student-database:v2.0.0-SNAPSHOT-1")
+    if (localStudentDatabaseJar == null) runtimeOnly("igs-landstuhl:student-database:v2.0.0-SNAPSHOT-1")
     
     // test framework (optional)
     testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
