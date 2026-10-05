@@ -128,16 +128,23 @@ async function loadStudentResultView(studentData, availableSubjects = []) {
     document.getElementById('student-name').textContent = `${studentData.firstName} ${studentData.lastName}`;
 
     // Get all subjects from progress keys
-    const subjectNames = Object.keys(studentData.currentProgress || {});
-    const subjects = subjectNames.map(progressKey => {
-        const progress = studentData.currentProgress[progressKey] || {};
-        return {
+    const progressEntries = Object.entries(studentData.currentProgress || {});
+    const subjects = Array.isArray(availableSubjects) && availableSubjects.length > 0
+        ? availableSubjects.map(subject => {
+            const match = progressEntries.find(([, progress]) => Number(progress?.subjectId) === Number(subject.id));
+            return {
+                id: subject.id,
+                name: match?.[0] || subject.name,
+                displayName: subject.name,
+                progressKey: match?.[0] || null
+            };
+        })
+        : progressEntries.map(([progressKey, progress]) => ({
             id: progress.subjectId ?? progressKey,
             name: progressKey,
             displayName: resolveSubjectDisplayName(progress, progressKey, availableSubjects),
             progressKey
-        };
-    });
+        }));
 
     const charts = document.getElementById('charts');
     subjects.forEach(subject => {

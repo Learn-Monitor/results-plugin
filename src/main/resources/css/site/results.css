@@ -1,8 +1,8 @@
-.bar-chart { margin-bottom: 40px; }
-.bar-container { display: flex; align-items: flex-end; height: 60px; margin-top: 10px; }
+.bar-chart { max-width: 100%; margin-bottom: 40px; overflow: hidden; }
+.bar-container { display: flex; align-items: flex-end; height: 60px; max-width: 100%; margin-top: 10px; overflow: hidden; }
 .bar-task {
     height: 40px;
-    margin-right: 2px;
+    margin-right: 0;
     border-radius: 4px 4px 0 0;
     border: 1px solid #ccc;
     position: relative;
