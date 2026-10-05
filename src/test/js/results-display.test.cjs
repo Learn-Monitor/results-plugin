@@ -8,7 +8,17 @@ const source = fs.readFileSync(
     path.join(__dirname, '../../main/resources/js/site/student-database.js'),
     'utf8'
 );
-const context = { console };
+const context = {
+    console,
+    document: {
+        readyState: 'loading',
+        addEventListener() {},
+        querySelectorAll() { return []; },
+        documentElement: {}
+    },
+    window: { setTimeout() { return 0; } },
+    MutationObserver: class { observe() {} disconnect() {} }
+};
 vm.createContext(context);
 vm.runInContext(source, context);
 

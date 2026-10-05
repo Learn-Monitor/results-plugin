@@ -1,19 +1,18 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const [studentData, subjects] = await Promise.all([
+        const [studentData, results] = await Promise.all([
             fetchMyData(),
-            fetch('/mysubjects').then(response => response.ok ? response.json() : [])
-        ]);
-        const catalogs = {};
-        await Promise.all((Array.isArray(subjects) ? subjects : []).map(async subject => {
-            const response = await fetch('/my-curriculum-catalog', {
-                method: 'POST', credentials: 'same-origin',
+            fetch('/my-completed-results', {
+                method: 'POST',
+                credentials: 'same-origin',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({subjectId: Number(subject.id)})
-            });
-            if (response.ok) catalogs[String(subject.id)] = await response.json();
-        }));
-        loadStudentResultView(studentData, subjects, catalogs);
+                body: '{}'
+            }).then(response => {
+                if (!response.ok) throw new Error(`Ergebnisse konnten nicht geladen werden (${response.status}).`);
+                return response.json();
+            })
+        ]);
+        await loadStudentResultView(studentData, results);
     } catch (error) {
         console.error('Schatzkammer konnte nicht geladen werden:', error);
         const charts = document.getElementById('charts');
