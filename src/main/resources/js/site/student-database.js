@@ -465,8 +465,9 @@ function arcanumResultsPopulateHeader(studentData) {
         "arcanum-profile__metric-card--rank-third"
     );
     const ranking = studentData?.ranking;
-    if (ranking?.inTopTen && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 10) {
-        arcanumResultsSetText("student-rank", `Platz ${ranking.rank}`);
+    if (ranking?.rankAvailable && ranking?.inTopTen && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 10) {
+        const total = Number.isInteger(ranking.rankTotal) ? `/${ranking.rankTotal}` : '';
+        arcanumResultsSetText("student-rank", `Platz ${ranking.rank}${total}`);
         if (rankCard && ranking.rank <= 3) {
             rankCard.classList.add(`arcanum-profile__metric-card--rank-${['first', 'second', 'third'][ranking.rank - 1]}`);
         }
