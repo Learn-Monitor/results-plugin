@@ -28,12 +28,21 @@ const source = productionFiles
 
 test('production resources contain no inline scripts or event handlers', () => {
     assert.doesNotMatch(source, /<script\b(?![^>]*\bsrc\s*=)[^>]*>/i);
-    assert.doesNotMatch(source, /\bon[a-z][a-z0-9_-]*\s*=\s*["']/i);
+    assert.doesNotMatch(source, /\bon[a-z][a-z0-9_-]*\s*=\s*(?:["'][^"']*["']|[^\s>]+)/i);
+    assert.doesNotMatch(source, /\.(?:onclick|ondblclick|onchange|oninput|onsubmit|onload|onerror|onkeydown|onkeyup|onmousedown|onmouseup|onmouseover|onfocus|onblur)\s*=/i);
+    assert.doesNotMatch(source, /\bjavascript\s*:/i);
 });
 
 test('production resources contain no executable HTML sinks or eval', () => {
     assert.doesNotMatch(source, /\b(?:innerHTML|outerHTML|insertAdjacentHTML|document\.write)\b/);
     assert.doesNotMatch(source, /\b(?:eval|Function)\s*\(/);
+});
+
+test('production resources contain no inline styles', () => {
+    assert.doesNotMatch(source, /<style\b[^>]*>/i);
+    assert.doesNotMatch(source, /\bstyle\s*=\s*(?:["'][^"']*["']|[^\s>]+)/i);
+    assert.doesNotMatch(source, /\bsetAttribute\s*\(\s*["']style["']/i);
+    assert.doesNotMatch(source, /\.cssText\s*=/i);
 });
 
 test('admin results use the external shared results asset', () => {
