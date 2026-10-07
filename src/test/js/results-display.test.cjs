@@ -13,6 +13,7 @@ const context = {
     document: {
         readyState: 'loading',
         addEventListener() {},
+        getElementById() { return null; },
         querySelectorAll() { return []; },
         documentElement: {}
     },
@@ -49,4 +50,20 @@ test('uses the canonical coin thresholds and display order', () => {
     assert.equal(context.gradeForCoins(90), 1);
     assert.equal(context.resolveSubjectOrder({displayOrder: 7}), 7);
     assert.equal(context.resolveSubjectOrder({name: 'unbekannt'}), 1000);
+});
+
+test('renders dynamic profile data as text, including markup-looking input', () => {
+    const element = {textContent: ''};
+    context.document.getElementById = id => id === 'student-name' ? element : null;
+    const marker = `<img src=x onerror=alert(1)> < > & " '`;
+
+    context.arcanumResultsSetText(
+        'student-name',
+        marker
+    );
+
+    assert.equal(
+        element.textContent,
+        marker
+    );
 });
