@@ -59,7 +59,7 @@ body {
     content: "";
     background:
         center / contain no-repeat
-        url("/arcanum-logo.png");
+        url("/arcanum-logo-b674493ab1b01691.webp");
     filter:
         drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
 }
@@ -295,7 +295,7 @@ body {
     border-radius: 50%;
     background:
         center / contain no-repeat
-        url("/arcanum-coin.png");
+        url("/arcanum-coin-a5c34f85b21b75d5.webp");
 }
 
 .arcanum-result-coin--earned {

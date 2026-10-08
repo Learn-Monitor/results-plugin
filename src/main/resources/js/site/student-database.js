@@ -227,7 +227,7 @@ function arcanumResultCreateLogbook(tasks) {
 
         const coin = document.createElement('img');
         coin.className = 'arcanum-log-entry__coin';
-        coin.src = '/arcanum-coin.png';
+        coin.src = '/arcanum-coin-a5c34f85b21b75d5.webp';
         coin.alt = '';
 
         const content = document.createElement('div');
@@ -258,7 +258,7 @@ function arcanumResultCreateLogbook(tasks) {
         const reward = document.createElement('strong');
         reward.className = 'arcanum-log-entry__reward';
         const rewardCoin = document.createElement('img');
-        rewardCoin.src = '/arcanum-coin.png';
+        rewardCoin.src = '/arcanum-coin-a5c34f85b21b75d5.webp';
         rewardCoin.alt = '';
         rewardCoin.className = 'arcanum-log-entry__reward-coin';
         reward.appendChild(rewardCoin);
@@ -317,7 +317,7 @@ function createBarChart(subject, subjectName, tasks, settings) {
     score.className = 'arcanum-result-score';
 
     const scoreCoin = document.createElement('img');
-    scoreCoin.src = '/arcanum-coin.png';
+    scoreCoin.src = '/arcanum-coin-a5c34f85b21b75d5.webp';
     scoreCoin.alt = '';
 
     const scoreNumber = document.createElement('strong');
@@ -367,7 +367,7 @@ function createBarChart(subject, subjectName, tasks, settings) {
     const coinHeading = document.createElement('strong');
     coinHeading.className = 'arcanum-result-coins__heading';
     const headingCoin = document.createElement('img');
-    headingCoin.src = '/arcanum-coin.png';
+    headingCoin.src = '/arcanum-coin-a5c34f85b21b75d5.webp';
     headingCoin.alt = '';
     headingCoin.className = 'arcanum-result-coins__heading-coin';
     coinHeading.appendChild(headingCoin);
