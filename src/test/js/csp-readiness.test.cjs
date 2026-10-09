@@ -56,5 +56,8 @@ test('admin results use the external shared results asset', () => {
     ));
 
     assert.doesNotMatch(adminTemplate, /<script\b/i);
-    assert.deepEqual(paths['/build_results.js'].namespaces, ['user', 'teacher', 'admin']);
+    assert.deepEqual(paths['/build_results.js'].namespaces, ['user', 'teacher']);
+    assert.equal(fs.existsSync(path.join(resourceRoot, 'js/user/build_results.js')), true);
+    assert.equal(fs.existsSync(path.join(resourceRoot, 'js/teacher/build_results.js')), true);
+    assert.equal(fs.existsSync(path.join(resourceRoot, 'js/admin/build_results.js')), false);
 });
