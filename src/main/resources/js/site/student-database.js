@@ -98,6 +98,16 @@ function arcanumResultLevelLabel(level) {
     }[Number(level)] || 'Etappe';
 }
 
+function arcanumResultEffectiveAward(task) {
+    const rawAward = task?.awardedTokens;
+    if (rawAward === null || rawAward === undefined) {
+        return Math.max(0, Number(task?.tokens) || 0);
+    }
+    return typeof rawAward === 'number' && Number.isSafeInteger(rawAward) && rawAward >= 0
+        ? rawAward
+        : 0;
+}
+
 function arcanumResultCompletedTasks(studentData, subjectName) {
     const seen = new Set();
 
@@ -124,7 +134,7 @@ function arcanumResultCoinSources(tasks) {
     const sources = [];
 
     tasks.forEach(task => {
-        const tokens = Math.max(0, Number(task?.tokens) || 0);
+        const tokens = arcanumResultEffectiveAward(task);
 
         for (let index = 0; index < tokens; index += 1) {
             sources.push(task);
@@ -180,7 +190,7 @@ function arcanumResultCreateCoinStacks(tasks, coins) {
                 const taskName =
                     source?.name || 'Abgeschlossene Etappe';
                 const reward =
-                    Math.max(0, Number(source?.tokens) || 0);
+                    arcanumResultEffectiveAward(source);
 
                 coin.title =
                     `${taskName} · ${reward} Münzen`;
@@ -263,7 +273,7 @@ function arcanumResultCreateLogbook(tasks) {
         rewardCoin.className = 'arcanum-log-entry__reward-coin';
         reward.appendChild(rewardCoin);
         reward.appendChild(
-            document.createTextNode(`+${Math.max(0, Number(task?.tokens) || 0)}`)
+            document.createTextNode(`+${arcanumResultEffectiveAward(task)}`)
         );
 
         content.appendChild(title);
@@ -288,7 +298,7 @@ function createBarChart(subject, subjectName, tasks, settings) {
 
     const coins = tasks.reduce(
         (sum, task) =>
-            sum + Math.max(0, Number(task?.tokens) || 0),
+            sum + arcanumResultEffectiveAward(task),
         0
     );
 
@@ -490,7 +500,7 @@ function arcanumResultsPopulateHeader(studentData) {
     const totalCoins = Number.isFinite(Number(studentData?.totalValidCoins))
         ? Number(studentData.totalValidCoins)
         : arcanumResultsUniqueCompletedTasks(studentData).reduce(
-            (sum, task) => sum + Math.max(0, Number(task?.tokens) || 0), 0
+            (sum, task) => sum + arcanumResultEffectiveAward(task), 0
         );
 
     arcanumResultsSetText("total-coins", totalCoins);

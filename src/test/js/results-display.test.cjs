@@ -52,6 +52,22 @@ test('uses the canonical coin thresholds and display order', () => {
     assert.equal(context.resolveSubjectOrder({name: 'unbekannt'}), 1000);
 });
 
+test('uses effective awarded tokens for earned results and preserves maximum fallback', () => {
+    assert.equal(context.arcanumResultEffectiveAward({tokens: 4, awardedTokens: 2}), 2);
+    assert.equal(context.arcanumResultEffectiveAward({tokens: 4, awardedTokens: null}), 4);
+    assert.equal(context.arcanumResultEffectiveAward({tokens: 4}), 4);
+    assert.equal(context.arcanumResultEffectiveAward({tokens: 4, awardedTokens: 0}), 0);
+    assert.equal(context.arcanumResultEffectiveAward({tokens: 4, awardedTokens: 'bad'}), 0);
+    assert.equal(
+        context.arcanumResultCoinSources([
+            {tokens: 4, awardedTokens: 4},
+            {tokens: 4, awardedTokens: 2},
+            {tokens: 3, awardedTokens: null}
+        ]).length,
+        9
+    );
+});
+
 test('renders dynamic profile data as text, including markup-looking input', () => {
     const element = {textContent: ''};
     context.document.getElementById = id => id === 'student-name' ? element : null;
