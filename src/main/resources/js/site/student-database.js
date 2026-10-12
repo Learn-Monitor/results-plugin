@@ -108,6 +108,18 @@ function arcanumResultEffectiveAward(task) {
         : 0;
 }
 
+function arcanumResultTaskRewardText(task) {
+    const earned = arcanumResultEffectiveAward(task);
+    if (task?.variableTokens === true) {
+        const maximum = Number(task?.tokens);
+        const unit = maximum === 1 ? 'Münze' : 'Münzen';
+        return Number.isSafeInteger(maximum) && maximum >= 0
+            ? `${earned} von ${maximum} ${unit}`
+            : `${earned} ${earned === 1 ? 'Münze' : 'Münzen'}`;
+    }
+    return `+${earned}`;
+}
+
 function arcanumResultCompletedTasks(studentData, subjectName) {
     const seen = new Set();
 
@@ -193,7 +205,8 @@ function arcanumResultCreateCoinStacks(tasks, coins) {
                     arcanumResultEffectiveAward(source);
 
                 coin.title =
-                    `${taskName} · ${reward} Münzen`;
+                    `${taskName} · ${task?.variableTokens === true && Number.isSafeInteger(task?.tokens)
+                        ? `${reward} von ${task.tokens} Münzen` : `${reward} Münzen`}`;
             } else {
                 coin.title =
                     `Münze ${coinNumber} noch nicht erreicht`;
@@ -272,9 +285,7 @@ function arcanumResultCreateLogbook(tasks) {
         rewardCoin.alt = '';
         rewardCoin.className = 'arcanum-log-entry__reward-coin';
         reward.appendChild(rewardCoin);
-        reward.appendChild(
-            document.createTextNode(`+${arcanumResultEffectiveAward(task)}`)
-        );
+        reward.appendChild(document.createTextNode(arcanumResultTaskRewardText(task)));
 
         content.appendChild(title);
 

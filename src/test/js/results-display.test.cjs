@@ -68,6 +68,17 @@ test('uses effective awarded tokens for earned results and preserves maximum fal
     );
 });
 
+test('formats variable rewards with earned and maximum values', () => {
+    assert.equal(context.arcanumResultTaskRewardText({tokens: 4, variableTokens: true, awardedTokens: 2}), '2 von 4 Münzen');
+    assert.equal(context.arcanumResultTaskRewardText({tokens: 4, variableTokens: true, awardedTokens: 4}), '4 von 4 Münzen');
+    assert.equal(context.arcanumResultTaskRewardText({tokens: 1, variableTokens: true, awardedTokens: 1}), '1 von 1 Münze');
+    assert.equal(context.arcanumResultTaskRewardText({tokens: 4, variableTokens: false, awardedTokens: 4}), '+4');
+});
+
+test('keeps variable reward zero distinct from maximum', () => {
+    assert.equal(context.arcanumResultTaskRewardText({tokens: 4, variableTokens: true, awardedTokens: 0}), '0 von 4 Münzen');
+});
+
 test('renders dynamic profile data as text, including markup-looking input', () => {
     const element = {textContent: ''};
     context.document.getElementById = id => id === 'student-name' ? element : null;
