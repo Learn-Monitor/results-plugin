@@ -205,8 +205,8 @@ function arcanumResultCreateCoinStacks(tasks, coins) {
                     arcanumResultEffectiveAward(source);
 
                 coin.title =
-                    `${taskName} · ${task?.variableTokens === true && Number.isSafeInteger(task?.tokens)
-                        ? `${reward} von ${task.tokens} Münzen` : `${reward} Münzen`}`;
+                    `${taskName} · ${source?.variableTokens === true && Number.isSafeInteger(source?.tokens)
+                        ? `${reward} von ${source.tokens} Münzen` : `${reward} Münzen`}`;
             } else {
                 coin.title =
                     `Münze ${coinNumber} noch nicht erreicht`;

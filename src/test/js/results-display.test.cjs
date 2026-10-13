@@ -75,6 +75,11 @@ test('formats variable rewards with earned and maximum values', () => {
     assert.equal(context.arcanumResultTaskRewardText({tokens: 4, variableTokens: false, awardedTokens: 4}), '+4');
 });
 
+test('coin stack source uses the task being rendered for variable labels', () => {
+    assert.match(source, /source\?\.variableTokens === true/);
+    assert.doesNotMatch(source, /taskName[\s\S]{0,200}task\?\.variableTokens === true/);
+});
+
 test('keeps variable reward zero distinct from maximum', () => {
     assert.equal(context.arcanumResultTaskRewardText({tokens: 4, variableTokens: true, awardedTokens: 0}), '0 von 4 Münzen');
 });
