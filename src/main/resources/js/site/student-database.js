@@ -92,7 +92,7 @@ function arcanumResultSubjectName(task) {
 
 function arcanumResultLevelLabel(level) {
     return {
-        1: 'Starter',
+        1: 'Wanderer',
         2: 'Bergsteiger',
         3: 'Gipfelstürmer'
     }[Number(level)] || 'Etappe';

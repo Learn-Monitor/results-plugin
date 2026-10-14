@@ -52,6 +52,13 @@ test('uses the canonical coin thresholds and display order', () => {
     assert.equal(context.resolveSubjectOrder({name: 'unbekannt'}), 1000);
 });
 
+test('renders academic niveau labels separately from graduation labels', () => {
+    assert.equal(context.arcanumResultLevelLabel(1), 'Wanderer');
+    assert.equal(context.arcanumResultLevelLabel(2), 'Bergsteiger');
+    assert.equal(context.arcanumResultLevelLabel(3), 'Gipfelstürmer');
+    assert.notEqual(context.arcanumResultLevelLabel(1), 'Starter');
+});
+
 test('uses effective awarded tokens for earned results and preserves maximum fallback', () => {
     assert.equal(context.arcanumResultEffectiveAward({tokens: 4, awardedTokens: 2}), 2);
     assert.equal(context.arcanumResultEffectiveAward({tokens: 4, awardedTokens: null}), 4);
