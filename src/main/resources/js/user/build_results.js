@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const progress = await response.json();
             results.subjects.push({...subject, completedTasks: [
                 ...(progress.completedCentralTasks || []).map(task => ({...task, type: 'CENTRAL'})),
-                ...(progress.completedFlexibleTasks || []).map(task => ({...task, type: 'FLEXIBLE'}))
+                ...(progress.completedFlexibleTasks || []).map(task => ({...task, type: 'FLEXIBLE'})),
+                ...(progress.completedNansteine || []).map(task => ({...task, type: 'NANSTEIN'}))
             ]});
         }));
         await loadStudentResultView(studentData, results);
