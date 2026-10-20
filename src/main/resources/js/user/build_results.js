@@ -16,7 +16,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             results.subjects.push({...subject, completedTasks: [
                 ...(progress.completedCentralTasks || []).map(task => ({...task, type: 'CENTRAL'})),
                 ...(progress.completedFlexibleTasks || []).map(task => ({...task, type: 'FLEXIBLE'})),
-                ...(progress.completedNansteine || []).map(task => ({...task, type: 'NANSTEIN'}))
+                // Nansteine are returned by the subject-scoped progress call
+                // without a topic. Preserve that subject identity so the
+                // treasure view cannot silently filter the reward out.
+                ...(progress.completedNansteine || []).map(task => ({
+                    ...task,
+                    type: 'NANSTEIN',
+                    subject: {id: subject.id, name: subject.name, displayName: subject.displayName}
+                }))
             ]});
         }));
         await loadStudentResultView(studentData, results);

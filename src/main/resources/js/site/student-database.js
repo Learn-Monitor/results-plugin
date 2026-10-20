@@ -158,15 +158,16 @@ function arcanumResultCoinSources(tasks) {
 
 function arcanumResultCreateCoinStacks(tasks, coins) {
     const container = document.createElement('div');
+    const displayMaxCoins = Math.max(RESULT_MAX_COINS, coins);
     container.className = 'arcanum-coin-stacks';
     container.setAttribute(
         'aria-label',
-        `${coins} von ${RESULT_MAX_COINS} Münzen`
+        `${coins} von ${displayMaxCoins} Münzen`
     );
 
     const sources = arcanumResultCoinSources(tasks);
     const coinsPerStack = 5;
-    const stackCount = Math.ceil(RESULT_MAX_COINS / coinsPerStack);
+    const stackCount = Math.ceil(displayMaxCoins / coinsPerStack);
 
     for (
         let stackIndex = 0;
@@ -179,7 +180,7 @@ function arcanumResultCreateCoinStacks(tasks, coins) {
         const firstCoin = stackIndex * coinsPerStack + 1;
         const slots = Math.min(
             coinsPerStack,
-            RESULT_MAX_COINS - stackIndex * coinsPerStack
+            displayMaxCoins - stackIndex * coinsPerStack
         );
 
         for (let slot = 0; slot < slots; slot += 1) {
@@ -393,7 +394,7 @@ function createBarChart(subject, subjectName, tasks, settings) {
     headingCoin.className = 'arcanum-result-coins__heading-coin';
     coinHeading.appendChild(headingCoin);
     coinHeading.appendChild(
-        document.createTextNode(`${coins} / ${RESULT_MAX_COINS} Münzen`)
+        document.createTextNode(`${coins} / ${Math.max(RESULT_MAX_COINS, coins)} Münzen`)
     );
 
     coinSection.appendChild(coinHeading);
