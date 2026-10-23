@@ -6,13 +6,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         ]);
         const results = {subjects: []};
         await Promise.all((Array.isArray(subjects) ? subjects : []).map(async subject => {
-            const response = await fetch('/my-curriculum-progress', {
-                method: 'POST', credentials: 'same-origin',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({subjectId: Number(subject.id)})
-            });
-            if (!response.ok) throw new Error(`Fortschritt konnte nicht geladen werden (${response.status}).`);
-            const progress = await response.json();
+            const progress = typeof fetchJsonStrict === 'function'
+                ? await fetchJsonStrict('/my-curriculum-progress', {
+                    method: 'POST', credentials: 'same-origin',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({subjectId: Number(subject.id)}), rateLimitSafe: true
+                })
+                : await (async () => {
+                    const response = await fetch('/my-curriculum-progress', {
+                        method: 'POST', credentials: 'same-origin',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({subjectId: Number(subject.id)})
+                    });
+                    if (!response.ok) throw new Error(`Fortschritt konnte nicht geladen werden (${response.status}).`);
+                    return response.json();
+                })();
             results.subjects.push({...subject, completedTasks: [
                 ...(progress.completedCentralTasks || []).map(task => ({...task, type: 'CENTRAL'})),
                 ...(progress.completedFlexibleTasks || []).map(task => ({...task, type: 'FLEXIBLE'})),
