@@ -470,7 +470,7 @@ function arcanumResultsPopulateHeader(studentData) {
     );
     const ranking = studentData?.ranking;
     if (ranking?.rankAvailable && (ranking?.inTopFifty ?? ranking?.inTopTen) && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 50) {
-        const total = Number.isInteger(ranking.rankTotal) ? `/${ranking.rankTotal}` : '';
+        const total = Number.isInteger(ranking.rankLimit) ? `/${ranking.rankLimit}` : '/50';
         arcanumResultsSetText("student-rank", `Platz ${ranking.rank}${total}`);
         if (rankCard && ranking.rank <= 3) {
             rankCard.classList.add(`arcanum-profile__metric-card--rank-${['first', 'second', 'third'][ranking.rank - 1]}`);
