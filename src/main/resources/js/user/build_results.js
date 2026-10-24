@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const [studentData, subjects] = await Promise.all([
             fetchMyData(),
-            fetch('/mysubjects').then(response => response.ok ? response.json() : [])
+            fetch('/my-curriculum-subjects', {
+                method: 'POST', credentials: 'same-origin',
+                headers: {'Content-Type': 'application/json'}, body: '{}'
+            }).then(response => response.ok ? response.json() : [])
         ]);
         const results = {subjects: []};
         await Promise.all((Array.isArray(subjects) ? subjects : []).map(async subject => {

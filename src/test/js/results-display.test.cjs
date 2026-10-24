@@ -34,6 +34,14 @@ test('uses the shared subject name for the treasure view', () => {
     );
 });
 
+test('loads the semester-specific subject assignment list', () => {
+    const buildResults = fs.readFileSync(
+        path.join(__dirname, '../../main/resources/js/user/build_results.js'), 'utf8'
+    );
+    assert.match(buildResults, /fetch\('\/my-curriculum-subjects'/);
+    assert.doesNotMatch(buildResults, /fetch\('\/mysubjects'/);
+});
+
 test('falls back safely when a subject is not in the shared list', () => {
     assert.equal(
         context.resolveSubjectDisplayName({subjectId: 99}, 'Unbekannt', []),
