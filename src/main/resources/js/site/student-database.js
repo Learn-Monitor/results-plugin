@@ -83,7 +83,9 @@ function createGradeScale() {
 
 function arcanumResultSubjectName(task) {
     return (
+        task?.topic?.subject?.displayName ??
         task?.topic?.subject?.name ??
+        task?.subject?.displayName ??
         task?.subject?.name ??
         task?.subject ??
         ''
@@ -359,28 +361,12 @@ function createBarChart(subject, subjectName, tasks, settings) {
     const status = document.createElement('div');
     status.className = 'arcanum-result-status';
 
-    if (!settings || settings.show_current_grade !== false) {
-        const gradeInfo = document.createElement('span');
-        gradeInfo.className = 'arcanum-result-grade';
-        gradeInfo.textContent =
-            `Aktuelle Note: ${getGradeLabel(grade)}`;
-
-        status.appendChild(gradeInfo);
-    }
-
-    const nextInfo = document.createElement('span');
-    nextInfo.className = 'arcanum-result-next';
-
-    if (nextGrade) {
-        nextInfo.textContent =
-            `${nextGrade.min - coins} Münzen bis ` +
-            `Note ${nextGrade.grade}`;
-    } else {
-        nextInfo.textContent =
-            'Höchste Notenstufe erreicht';
-    }
-
-    status.appendChild(nextInfo);
+    const progressInfo = document.createElement('span');
+    progressInfo.className = 'arcanum-result-next';
+    progressInfo.textContent = nextGrade
+        ? `${nextGrade.min - coins} Münzen bis zum nächsten Fortschrittsziel`
+        : 'Fortschritt vollständig erreicht';
+    status.appendChild(progressInfo);
     chart.appendChild(status);
 
     const coinSection = document.createElement('section');
@@ -401,10 +387,6 @@ function createBarChart(subject, subjectName, tasks, settings) {
     coinSection.appendChild(
         arcanumResultCreateCoinStacks(tasks, coins)
     );
-    coinSection.appendChild(
-        createGradeScale()
-    );
-
     chart.appendChild(coinSection);
     chart.appendChild(
         arcanumResultCreateLogbook(tasks)
@@ -487,14 +469,14 @@ function arcanumResultsPopulateHeader(studentData) {
         "arcanum-profile__metric-card--rank-third"
     );
     const ranking = studentData?.ranking;
-    if (ranking?.rankAvailable && ranking?.inTopTen && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 10) {
+    if (ranking?.rankAvailable && (ranking?.inTopFifty ?? ranking?.inTopTen) && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 50) {
         const total = Number.isInteger(ranking.rankTotal) ? `/${ranking.rankTotal}` : '';
         arcanumResultsSetText("student-rank", `Platz ${ranking.rank}${total}`);
         if (rankCard && ranking.rank <= 3) {
             rankCard.classList.add(`arcanum-profile__metric-card--rank-${['first', 'second', 'third'][ranking.rank - 1]}`);
         }
     } else {
-        arcanumResultsSetText("student-rank", "Du bist nicht in den Top Ten.");
+        arcanumResultsSetText("student-rank", "Du bist nicht in den Top 50.");
     }
 
     const graduation = studentData?.graduationLevel;
